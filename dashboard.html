@@ -55,20 +55,20 @@
 
     <div class="section-title">James’s Supplements</div>
     <div class="supplement-card checkbox">
-      <label><input type="checkbox"> Alflorex® Dual Action</label><br>
-      <label><input type="checkbox"> Vitamin D3 + K2</label><br>
-      <label><input type="checkbox"> Vitamin C + Zinc</label><br>
-      <label><input type="checkbox"> Biotin 12,000 mcg</label><br>
-      <label><input type="checkbox"> MCT Oil</label>
+      <label><input type="checkbox" class="check" id="j1"> Alflorex® Dual Action</label><br>
+      <label><input type="checkbox" class="check" id="j2"> Vitamin D3 + K2</label><br>
+      <label><input type="checkbox" class="check" id="j3"> Vitamin C + Zinc</label><br>
+      <label><input type="checkbox" class="check" id="j4"> Biotin 12,000 mcg</label><br>
+      <label><input type="checkbox" class="check" id="j5"> MCT Oil</label>
     </div>
 
     <div class="section-title">Jo’s Supplements</div>
     <div class="supplement-card checkbox">
-      <label><input type="checkbox"> Vitamin D3 + K2</label><br>
-      <label><input type="checkbox"> Rhodiola Rosea</label><br>
-      <label><input type="checkbox"> B-Complex</label><br>
-      <label><input type="checkbox"> Magnesium Threonate</label><br>
-      <label><input type="checkbox"> Evening Primrose Oil</label>
+      <label><input type="checkbox" class="check" id="jo1"> Vitamin D3 + K2</label><br>
+      <label><input type="checkbox" class="check" id="jo2"> Rhodiola Rosea</label><br>
+      <label><input type="checkbox" class="check" id="jo3"> B-Complex</label><br>
+      <label><input type="checkbox" class="check" id="jo4"> Magnesium Threonate</label><br>
+      <label><input type="checkbox" class="check" id="jo5"> Evening Primrose Oil</label>
     </div>
 
     <div class="section-title">Mood & Body Check-In</div>
@@ -83,12 +83,32 @@
 
     <div class="section-title">Notes</div>
     <div class="supplement-card">
-      <textarea class="form-control" rows="4" placeholder="How do you feel today? Any symptoms or shifts?"></textarea>
+      <textarea class="form-control" id="notes" rows="4" placeholder="How do you feel today? Any symptoms or shifts?"></textarea>
     </div>
 
     <div class="footer">
-      © James Saint 2025 — This page stores nothing online.
+      © James Saint 2025 — This page stores your inputs locally in your browser.
     </div>
   </main>
+
+  <script>
+    // Restore saved state
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.check').forEach(el => {
+        const val = localStorage.getItem(el.id);
+        if (val === 'true') el.checked = true;
+        el.addEventListener('change', () => localStorage.setItem(el.id, el.checked));
+      });
+      ['energy', 'focus', 'stress'].forEach(id => {
+        const el = document.getElementById(id);
+        const val = localStorage.getItem(id);
+        if (val !== null) el.value = val;
+        el.addEventListener('input', () => localStorage.setItem(id, el.value));
+      });
+      const notes = document.getElementById('notes');
+      notes.value = localStorage.getItem('notes') || '';
+      notes.addEventListener('input', () => localStorage.setItem('notes', notes.value));
+    });
+  </script>
 </body>
 </html>
